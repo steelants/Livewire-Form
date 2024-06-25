@@ -1,0 +1,27 @@
+{
+    "name": "steelants/livewire-form",
+    "description": "Simple Form class based on Laravel & Livewire",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SteelAnts\\LivewireForm\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SteelAnts"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^11.0",
+        "livewire/livewire": "^2.0|^3.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SteelAnts\\LivewireForm\\LivewireFormServiceProvider"
+            ]
+        }
+    }
+}
