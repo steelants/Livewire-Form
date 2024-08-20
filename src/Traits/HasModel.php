@@ -58,18 +58,14 @@ trait HasModel
         return $this->resolveModel()->getCasts();
     }
 
-    public function options()
+    public function options($field, $options = []): array
     {
-        $options = [];
-        foreach ($this->properties() as $key => $value) {
-            if (str_ends_with($key, '_id')) {
-                $relatedModel = Str::camel(str_replace("_id", "", $key));
-                $options[$key] = $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
-            }
+        $relatedModel = Str::camel(str_replace("_id", "", $field));
+        if (str_ends_with($field, '_id')) {
+            return $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
         }
-        return $options;
-        // dump($this->resolveModel()->getRelations());
-        //dd(get_class_methods($this->resolveModel()));
+
+        return [];
     }
 
     public function resolveModel()
