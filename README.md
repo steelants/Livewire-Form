@@ -2,19 +2,35 @@
 
 ### Basic Form Component For Creation/Update of model
 ```php
-    namespace App\Livewire;
+    n<?php
+namespace App\Livewire;
 
-    use App\Models\PersonParent;
-    use SteelAnts\LivewireForm\Livewire\FormComponent;
-    use SteelAnts\LivewireForm\Traits\HasModel;
+use App\Models\PersonChild;
+use SteelAnts\LivewireForm\Livewire\FormComponent;
+use SteelAnts\LivewireForm\Traits\HasModel;
 
-    class FormTest extends FormComponent
-    {
-        use HasModel;
+class FormTest extends FormComponent
+{
+    use HasModel;
 
-        public $model = PersonParent::class;
-        public $model_id = null;
+    public $model = PersonChild::class;
+    public $model_id = 2;
+
+    //Overide default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
+    function labels(){
+        return [
+            'name' => __('Jméno')
+        ];
     }
+
+    function onSuccess(){
+        //DO SOMETHING ON SUCESS;
+    }
+
+    function onError(){
+        //DO SOMETHING ON ERROR;
+    }
+}
 ```
 
 ### Dev Enviroment

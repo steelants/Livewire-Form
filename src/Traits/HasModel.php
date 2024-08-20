@@ -4,23 +4,33 @@ namespace SteelAnts\LivewireForm\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
 
 trait HasModel
 {
     // If you vant to manipulate with model you need to 
-public $modelObject;
-    public function store()
+    public $modelObject;
+
+    public function submit(): bool
     {
-        dd($this->properties);
         if (method_exists($this, 'rules')) {
             $this->validate();
         }
 
         if ($this->resolveModel()->id !== null) {
-            $this->resolveModel()->update($this->properties);
+            try {
+                $this->resolveModel()->update($this->properties);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return false;
+            }
         } else {
-            $this->resolveModel()::create($this->properties);
+            if(!$this->resolveModel()::create($this->properties)){
+                return false;
+            }
         }
+
+        return true;
     }
 
     public function fields()
@@ -34,7 +44,7 @@ public $modelObject;
             $rawProperties = $this->resolveModel()->toArray();
 
             foreach ($rawProperties as $key => $value) {
-                $rawProperties[$key] = (isset($this->types()[$key]) && str_starts_with($this->types()[$key],"date") ? Carbon::parse($value)->format('Y-m-d') : $value);
+                $rawProperties[$key] = (isset($this->types()[$key]) && str_starts_with($this->types()[$key], "date") ? Carbon::parse($value)->format('Y-m-d') : $value);
             }
 
             return $rawProperties;
@@ -48,9 +58,23 @@ public $modelObject;
         return $this->resolveModel()->getCasts();
     }
 
+    public function options()
+    {
+        $options = [];
+        foreach ($this->properties() as $key => $value) {
+            if (str_ends_with($key, '_id')) {
+                $relatedModel = Str::camel(str_replace("_id", "", $key));
+                $options[$key] = $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
+            }
+        }
+        return $options;
+        // dump($this->resolveModel()->getRelations());
+        //dd(get_class_methods($this->resolveModel()));
+    }
+
     public function resolveModel()
     {
-        if (!empty($this->modelObject)){
+        if (!empty($this->modelObject)) {
             return $this->modelObject;
         }
 

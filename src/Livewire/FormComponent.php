@@ -17,6 +17,7 @@ class FormComponent extends Component
   public array $properties = [];
   private array $types = [];
   private array $fields = [];
+  private array $options = [];
 
   private function getFields(): array
   {
@@ -45,13 +46,43 @@ class FormComponent extends Component
     return $this->types;
   }
 
+  private function getOptions()
+  {
+    if (method_exists($this, 'options')) {
+      $this->options = $this->options();
+    }
+
+    return $this->options;
+  }
+
+  private function getLabels()
+  {
+    if (method_exists($this, 'labels')) {
+      return $this->labels();
+    }
+
+    return $this->getFields();
+  }
+
   public function store()
   {
     if (method_exists($this, 'rules')) {
       $this->validate();
     }
 
-    dd($this->properties);
+    $error = true;
+    if(method_exists($this, 'submit')){
+      $error = !$this->submit();
+    } else {
+      $error =  !dd($this->properties);
+    }
+
+    if ($error && method_exists($this, 'onError')){
+      $this->onError();
+    } elseif (method_exists($this, 'onSuccess')){
+      $this->reset('properties');
+      $this->onSuccess();
+    }
   }
 
   // Transform whole field on output (optional)
@@ -70,6 +101,9 @@ class FormComponent extends Component
       'fields' => $this->getFields(),
       'properties' => $this->getProperties(),
       'types' => $this->getTypes(),
+      'options' => $this->getOptions(),
+      'labels' => $this->getLabels(),
+
     ]);
   }
 }
