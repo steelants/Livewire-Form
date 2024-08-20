@@ -21,6 +21,10 @@ class FormComponent extends Component
 
   private function getFields(): array
   {
+
+    if($this->fields != [])
+      return $this->fields;
+
     if (method_exists($this, 'fields')) {
       $this->fields = $this->fields();
     }
@@ -49,6 +53,9 @@ class FormComponent extends Component
 
   private function getOptions()
   {
+    if($this->options != [])
+      return $this->options;
+
     $options = [];
 
     foreach ($this->getProperties() as $key => $value) {

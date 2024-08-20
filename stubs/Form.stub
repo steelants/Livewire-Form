@@ -1,0 +1,35 @@
+<?php
+namespace App\Livewire;
+
+use App\Models\{{model}};
+use SteelAnts\LivewireForm\Livewire\FormComponent;
+use SteelAnts\LivewireForm\Traits\HasModel;
+
+class FormTest extends FormComponent
+{
+    {{traits}}
+
+    public $model = {{model}}::class;
+    public $model_id = null;
+
+    protected function rules()
+    {
+        return [
+            {{validationRules}}
+        ];
+    }
+
+    function labels(){
+        return [
+            'name' => __('Jméno')
+        ];
+    }
+
+    function onSuccess(){
+        //DO SOMETHING ON SUCESS;
+    }
+
+    function onError(){
+        //DO SOMETHING ON ERROR;
+    }
+}
