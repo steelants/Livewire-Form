@@ -2,7 +2,7 @@
 
 ### Basic Form Component For Creation/Update of model
 ```php
-    n<?php
+<?php
 namespace App\Livewire;
 
 use App\Models\PersonChild;
@@ -14,9 +14,9 @@ class FormTest extends FormComponent
     use HasModel;
 
     public $model = PersonChild::class;
-    public $model_id = 2;
+    public $model_id;
 
-    //Overide default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
+    //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
     function labels(){
         return [
             'name' => __('Jméno')
@@ -32,6 +32,10 @@ class FormTest extends FormComponent
     }
 }
 ```
+```blade
+@livewire('form-test', ['model_id' => 2])
+```
+
 
 ### Dev Enviroment
 1) Clone Repo to `[LARVEL-ROOT]packages/`
