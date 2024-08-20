@@ -1,5 +1,22 @@
 # Livewire-Form
 
+### Basic Form Component For Creation/Update of model
+```php
+    namespace App\Livewire;
+
+    use App\Models\PersonParent;
+    use SteelAnts\LivewireForm\Livewire\FormComponent;
+    use SteelAnts\LivewireForm\Traits\HasModel;
+
+    class FormTest extends FormComponent
+    {
+        use HasModel;
+
+        public $model = PersonParent::class;
+        public $model_id = null;
+    }
+```
+
 ### Dev Enviroment
 1) Clone Repo to `[LARVEL-ROOT]packages/`
 2) Modify ;composer.json`
@@ -16,6 +33,7 @@
 ```php
 SteelAnts\LivewireForm\LivewireFormServiceProvider::class,
 ```
+
 
 ## Contributors
 <a href="https://github.com/steelants/laravel-auth/graphs/contributors">

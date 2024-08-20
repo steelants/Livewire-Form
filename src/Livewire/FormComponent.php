@@ -10,19 +10,44 @@ use Illuminate\View\AnonymousComponent;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Concerns\ManagesComponents;
 use SteelAnts\Form\View\Components\Form;
+use SteelAnts\LivewireForm\Traits\HasModel;
 
 class FormComponent extends Component
 {
-  public array $fields = [];
   public array $properties = [];
+  private array $types = [];
+  private array $fields = [];
 
   private function getFields(): array
   {
+    if (method_exists($this, 'fields')) {
+      $this->fields = $this->fields();
+    }
+
     return $this->fields;
   }
 
-  public function store(){
-    if (method_exists($this, 'rules')){
+  private function getProperties()
+  {
+    if (method_exists($this, 'properties')) {
+      $this->properties = $this->properties();
+    }
+
+    return $this->properties;
+  }
+
+  private function getTypes()
+  {
+    if (method_exists($this, 'types')) {
+      $this->types = $this->types();
+    }
+
+    return $this->types;
+  }
+
+  public function store()
+  {
+    if (method_exists($this, 'rules')) {
       $this->validate();
     }
 
@@ -40,6 +65,11 @@ class FormComponent extends Component
 
   public function render()
   {
-      return view('form-components::container', ['fields' => $this->getFields()]);
+   
+    return view('form-components::container', [
+      'fields' => $this->getFields(),
+      'properties' => $this->getProperties(),
+      'types' => $this->getTypes(),
+    ]);
   }
 }
