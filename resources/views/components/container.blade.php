@@ -43,6 +43,9 @@
 						@break
 
 						@default
+				                        <div class="mb-3">
+				                            <span>Unsupported type: {{ $types[$field] }}</span>
+				                        </div>
 					@endswitch
 				@else
 					<x-form::input
