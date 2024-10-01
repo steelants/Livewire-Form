@@ -22,7 +22,7 @@ class FormComponent extends Component
   private function getFields(): array
   {
 
-    if($this->fields != [])
+    if ($this->fields != [])
       return $this->fields;
 
     if (method_exists($this, 'fields')) {
@@ -51,17 +51,16 @@ class FormComponent extends Component
     return $this->types;
   }
 
-  private function getOptions()
+  public function getOptions()
   {
-    if($this->options != [])
+    if ($this->options != [])
       return $this->options;
 
     $options = [];
-
     foreach ($this->getProperties() as $key => $value) {
       $optionMethodName = Str::camel('get_' . $key . '_options');
       if (method_exists($this, $optionMethodName)) {
-        $options[$key] = $optionMethodName();
+        $options[$key] = $this->$optionMethodName();
         continue;
       }
 
@@ -69,7 +68,8 @@ class FormComponent extends Component
         $options[$key] = $this->options($key, $options);
       }
     }
-
+    
+    
     $this->options = $options;
 
 
@@ -131,7 +131,6 @@ class FormComponent extends Component
       'types' => $this->getTypes(),
       'options' => $this->getOptions(),
       'labels' => $this->getLabels(),
-
     ]);
   }
 }
