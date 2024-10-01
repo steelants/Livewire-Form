@@ -25,7 +25,7 @@ trait HasModel
                 return false;
             }
         } else {
-            if(!$this->resolveModel()::create($this->properties)){
+            if (!$this->resolveModel()::create($this->properties)) {
                 return false;
             }
         }
@@ -40,17 +40,17 @@ trait HasModel
 
     public function properties()
     {
+        $rawProperties = array_fill_keys(ARRAY_KEYS(array_flip($this->resolveModel()->getFillable())), null);
+
         if ($this->resolveModel()->id !== null) {
             $rawProperties = $this->resolveModel()->toArray();
-
-            foreach ($rawProperties as $key => $value) {
-                $rawProperties[$key] = (isset($this->types()[$key]) && str_starts_with($this->types()[$key], "date") ? Carbon::parse($value)->format('Y-m-d') : $value);
-            }
-
-            return $rawProperties;
         }
 
-        return [];
+        foreach ($rawProperties as $key => $value) {
+            $rawProperties[$key] = (isset($this->types()[$key]) && str_starts_with($this->types()[$key], "date") ? Carbon::parse($value)->format('Y-m-d') : $value);
+        }
+
+        return $rawProperties;
     }
 
     public function types()
@@ -62,13 +62,15 @@ trait HasModel
     {
         $relatedModel = Str::camel(str_replace("_id", "", $field));
         if (str_ends_with($field, '_id')) {
-            return $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
+            if (!empty($this->resolveModel()->$relatedModel)){   
+                return $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
+            }
         }
 
         return [];
     }
 
-    public function resolveModel()
+    public function resolveModel(): Model
     {
         if (!empty($this->modelObject)) {
             return $this->modelObject;
