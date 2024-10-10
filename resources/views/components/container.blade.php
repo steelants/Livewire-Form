@@ -15,6 +15,23 @@
 					/>
 				@elseif(isset($types[$field]))
 					@switch($types[$field])
+						@case("string")
+							<x-form::input
+								group-class="mb-3"
+								label="{{ $labels[$field] ?? $field }}"
+								wire:model="properties.{{ $field }}"
+							/>
+						@break
+
+						@case("text")
+							<x-form::quill
+								group-class="mb-3"
+								label="{{ $labels[$field] ?? $field }}"
+								type="number"
+								wire:model="properties.{{ $field }}"
+							/>
+						@break
+
 						@case("int")
 							<x-form::input
 								group-class="mb-3"
@@ -43,9 +60,9 @@
 						@break
 
 						@default
-				                        <div class="mb-3">
-				                            <span>Unsupported type: {{ $types[$field] }}</span>
-				                        </div>
+							<div class="mb-3">
+								<span>Unsupported type: {{ $types[$field] }}</span>
+							</div>
 					@endswitch
 				@else
 					<x-form::input
