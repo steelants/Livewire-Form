@@ -19,6 +19,8 @@ class FormComponent extends Component
   private array $fields = [];
   private array $options = [];
 
+  public string $viewName = 'form-components::container';
+
   private function getFields(): array
   {
 
@@ -125,7 +127,7 @@ class FormComponent extends Component
 
   public function render()
   {
-    return view('form-components::container', [
+    return view($this->viewName, [
       'fields' => $this->getFields(),
       'properties' => $this->getProperties(),
       'types' => $this->getTypes(),
