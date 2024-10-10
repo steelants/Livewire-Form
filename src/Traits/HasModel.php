@@ -41,7 +41,7 @@ trait HasModel
     public function properties()
     {
         $rawProperties = array_fill_keys(ARRAY_KEYS(array_flip($this->resolveModel()->getFillable())), null);
-
+        
         if ($this->resolveModel()->id !== null) {
             $rawProperties = $this->resolveModel()->toArray();
         }
@@ -75,14 +75,14 @@ trait HasModel
         if (!empty($this->modelObject)) {
             return $this->modelObject;
         }
-
-        if (empty($this->model_id)) {
+        
+        if (!$this->model->exists()) {
             $classname = $this->model;
             $this->modelObject = new $classname();
             return $this->modelObject;
         }
 
-        $this->modelObject = $this->model::find($this->model_id);
+        $this->modelObject = $this->model;
         return $this->modelObject;
     }
 }
