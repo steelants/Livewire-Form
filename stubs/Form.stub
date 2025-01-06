@@ -1,11 +1,11 @@
 <?php
-namespace App\Livewire;
+namespace App\Livewire\{{model}};
 
 use App\Models\{{model}};
 use SteelAnts\LivewireForm\Livewire\FormComponent;
 use SteelAnts\LivewireForm\Traits\HasModel;
 
-class FormTest extends FormComponent
+class {{fileName}} extends FormComponent
 {
     {{traits}}
 

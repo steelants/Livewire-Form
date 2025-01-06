@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\AnonymousComponent;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Concerns\ManagesComponents;
@@ -36,7 +37,7 @@ class FormComponent extends Component
 
   private function getProperties()
   {
-    if (method_exists($this, 'properties')) {
+    if (empty($this->properties) && method_exists($this, 'properties')) {
       $this->properties = $this->properties();
       unset($this->properties['id']);
     }
@@ -89,22 +90,32 @@ class FormComponent extends Component
 
   public function store()
   {
-    if (method_exists($this, 'rules')) {
-      $this->validate();
-    }
+    try {
+      if (method_exists($this, 'rules')) {
+        $this->validate();
+      }
 
-    $error = true;
-    if (method_exists($this, 'submit')) {
-      $error = !$this->submit();
-    } else {
-      $error =  !dd($this->properties);
-    }
+      $error = true;
+      if (method_exists($this, 'submit')) {
+        $error = !$this->submit();
+      } else {
+        $error = !dd($this->properties);
+      }
 
-    if ($error && method_exists($this, 'onError')) {
+      if ($error && method_exists($this, 'onError')) {
+        $this->onError();
+      } elseif (method_exists($this, 'onSuccess')) {
+        $this->reset('properties');
+        $this->onSuccess();
+      }
+    } catch (ValidationException $e) {
+      $this->resetErrorBag();
+      foreach ($e->validator->errors()->messages() as $field => $messages) {
+        foreach ($messages as $message) {
+          $this->addError($field, str_replace("properties.", "", $message));
+        }
+      }
       $this->onError();
-    } elseif (method_exists($this, 'onSuccess')) {
-      $this->reset('properties');
-      $this->onSuccess();
     }
   }
 

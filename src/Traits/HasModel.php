@@ -75,14 +75,14 @@ trait HasModel
         if (!empty($this->modelObject)) {
             return $this->modelObject;
         }
-        
-        if (!$this->model->exists()) {
+
+        if (empty($this->model_id)) {
             $classname = $this->model;
             $this->modelObject = new $classname();
             return $this->modelObject;
         }
 
-        $this->modelObject = $this->model;
+        $this->modelObject = $this->model::find($this->model_id);
         return $this->modelObject;
     }
 }

@@ -17,6 +17,7 @@ class LivewireFormServiceProvider extends ServiceProvider
         }
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views/components', 'form-components');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'livewire-form');
     }
 
     public function register()

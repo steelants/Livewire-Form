@@ -59,6 +59,21 @@
 							/>
 						@break
 
+						@case("hashed")
+							<x-form::input
+								group-class="mb-3"
+								label="{{ $labels[$field] ?? $field }}"
+								type="password"
+								wire:model="properties.{{ $field }}"
+							/>
+							<x-form::input
+								group-class="mb-3"
+								label="{{ ($labels[$field . '_confirmation'] ?? $field . ' ' . __('livewire-form::ui.confirmation')) }}"
+								type="password"
+								wire:model="properties.{{ $field . '_confirmation' }}"
+							/>
+						@break
+
 						@default
 							<div class="mb-3">
 								<span>Unsupported type: {{ $types[$field] }}</span>
@@ -77,6 +92,6 @@
 		<x-form::button
 			class="btn-primary"
 			type="submit"
-		>{{ __("boileplate::ui:create") }}</x-form::button>
+		>{{ (empty($this->model_id) ? __("boilerplate::ui.create") : __("boilerplate::ui.update")) }}</x-form::button>
 	</x-form::form>
 </div>
