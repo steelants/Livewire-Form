@@ -3,17 +3,25 @@
 ### Basic Form Component For Creation/Update of model
 ```php
 <?php
-namespace App\Livewire;
+namespace App\Livewire\PersonChild;
 
 use App\Models\PersonChild;
 use SteelAnts\LivewireForm\Livewire\FormComponent;
 use SteelAnts\LivewireForm\Traits\HasModel;
 
-class FormTest extends FormComponent
+class Form extends FormComponent
 {
     use HasModel;
 
     public $class = PersonChild::class;
+
+    //default rules generated from $fillables of model or define own if you are not using them HasModel Attribute
+    protected function rules()
+    {
+        return [
+            'properties.name' => 'required',
+        ];
+    }
 
     //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
     function labels(){
@@ -33,6 +41,51 @@ class FormTest extends FormComponent
 ```
 ```blade
 @livewire('form-test', ['model' => 2])
+```
+
+### User For Form Component example
+```php
+<?php
+namespace App\Livewire\User;
+
+use App\Models\User;
+use SteelAnts\LivewireForm\Livewire\FormComponent;
+use SteelAnts\LivewireForm\Traits\HasModel;
+
+class Form extends FormComponent
+{
+    use HasModel;
+
+    public $class = User::class;
+
+    protected function rules()
+    {
+        return [
+            'properties.name' => 'required|max:255|unique:users,name',
+            'properties.email' => 'required|string|email|max:255|unique:users,email' . ($this->model->exists() ? ',' . $this->model->id : ''),
+            'properties.password' => 'sometimes|string|min:8|max:255',
+            'properties.password_confirmation' => 'required_with:properties.password|string|same:properties.password',
+        ];
+    }
+
+    //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
+    function labels(){
+        return [
+            'name' => __('Name'),
+            'email' => __('Email'),
+            'password' => __('Password'),
+            'password_confirmation' => __('Password confirmation')
+        ];
+    }
+
+    function onSuccess(){
+        //DO SOMETHING ON SUCESS;
+    }
+
+    function onError(){
+        //DO SOMETHING ON ERROR;
+    }
+}
 ```
 
 
