@@ -4,13 +4,12 @@ namespace SteelAnts\LivewireForm\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Str;
 
 trait HasModel
 {
     // If you vant to manipulate with model you need to 
-    public $modelObject;
+    public $model;
 
     public function submit(): bool
     {
@@ -18,7 +17,7 @@ trait HasModel
             $this->validate();
         }
 
-        if ($this->resolveModel()->id !== null) {
+        if ($this->resolveModel()->exists()) {
             try {
                 $this->resolveModel()->update($this->properties);
             } catch (\Illuminate\Database\QueryException $e) {
@@ -72,17 +71,20 @@ trait HasModel
 
     public function resolveModel(): Model
     {
-        if (!empty($this->modelObject)) {
-            return $this->modelObject;
+        if (!empty($this->model)) {
+            if (!is_int($this->model)){
+                return $this->model;
+            } else {
+                $model = $this->class::find($this->model);
+                if ($model->exists()) {
+                    $this->model = $model;
+                    return $this->model;
+                }
+            }
         }
 
-        if (empty($this->model_id)) {
-            $classname = $this->model;
-            $this->modelObject = new $classname();
-            return $this->modelObject;
-        }
-
-        $this->modelObject = $this->model::find($this->model_id);
-        return $this->modelObject;
+        $classname = $this->class;
+        $this->model = new $classname();
+        return $this->model;
     }
 }

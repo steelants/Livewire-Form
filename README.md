@@ -13,8 +13,7 @@ class FormTest extends FormComponent
 {
     use HasModel;
 
-    public $model = PersonChild::class;
-    public $model_id;
+    public $class = PersonChild::class;
 
     //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
     function labels(){
@@ -33,7 +32,7 @@ class FormTest extends FormComponent
 }
 ```
 ```blade
-@livewire('form-test', ['model_id' => 2])
+@livewire('form-test', ['model' => 2])
 ```
 
 

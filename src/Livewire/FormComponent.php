@@ -2,16 +2,9 @@
 
 namespace SteelAnts\LivewireForm\Livewire;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\View;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\AnonymousComponent;
-use Illuminate\View\ComponentAttributeBag;
-use Illuminate\View\Concerns\ManagesComponents;
-use SteelAnts\Form\View\Components\Form;
-use SteelAnts\LivewireForm\Traits\HasModel;
 
 class FormComponent extends Component
 {
