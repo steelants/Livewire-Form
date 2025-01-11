@@ -75,7 +75,7 @@ trait HasModel
             if (!is_int($this->model)){
                 return $this->model;
             } else {
-                $model = $this->class::find($this->model);
+                $model = $this->modelClass::find($this->model);
                 if ($model->exists()) {
                     $this->model = $model;
                     return $this->model;
@@ -83,7 +83,7 @@ trait HasModel
             }
         }
 
-        $classname = $this->class;
+        $classname = $this->modelClass;
         $this->model = new $classname();
         return $this->model;
     }

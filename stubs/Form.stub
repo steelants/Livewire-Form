@@ -9,7 +9,7 @@ class {{fileName}} extends FormComponent
 {
     {{traits}}
 
-    public $class = {{model}}::class;
+    public $modelClass = {{model}}::class;
 
     protected function rules()
     {
