@@ -17,7 +17,7 @@ trait HasModel
             $this->validate();
         }
 
-        if ($this->resolveModel()->exists()) {
+        if (!empty($this->resolveModel()->getAttributes())) {
             try {
                 $this->resolveModel()->update($this->properties);
             } catch (\Illuminate\Database\QueryException $e) {
@@ -76,7 +76,7 @@ trait HasModel
                 return $this->model;
             } else {
                 $model = $this->modelClass::find($this->model);
-                if ($model->exists()) {
+                if (!empty($model) && $model->count() > 0) {
                     $this->model = $model;
                     return $this->model;
                 }
