@@ -72,7 +72,7 @@ trait HasModel
     public function resolveModel(): Model
     {
         if (!empty($this->model)) {
-            if (!is_int($this->model)){
+            if (!is_int($this->model) && !empty($this->model->getAttributes())){
                 return $this->model;
             } else {
                 $model = $this->modelClass::find($this->model);
@@ -82,7 +82,6 @@ trait HasModel
                 }
             }
         }
-
         $classname = $this->modelClass;
         $this->model = new $classname();
         return $this->model;
