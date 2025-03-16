@@ -23,11 +23,20 @@
 							/>
 						@break
 
-						@case("text")
+						@case("quill")
 							<x-form::quill
 								group-class="mb-3"
 								label="{{ $labels[$field] ?? $field }}"
 								type="number"
+								:mentions="$this->mentions"
+								wire:model="properties.{{ $field }}"
+							/>
+						@break
+
+						@case("text")
+							<x-form::textarea
+								group-class="mb-3"
+								label="{{ $labels[$field] ?? $field }}"
 								wire:model="properties.{{ $field }}"
 							/>
 						@break

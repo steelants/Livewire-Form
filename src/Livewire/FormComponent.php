@@ -5,6 +5,7 @@ namespace SteelAnts\LivewireForm\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 
 class FormComponent extends Component
 {
@@ -14,6 +15,12 @@ class FormComponent extends Component
   private array $options = [];
 
   public string $viewName = 'form-components::container';
+
+  #[Computed()]
+  public function mentions()
+  {
+      return [];
+  }
 
   private function getFields(): array
   {
