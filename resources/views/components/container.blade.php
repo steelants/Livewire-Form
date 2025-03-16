@@ -11,7 +11,7 @@
 						group-class="mb-3"
 						label="{{ $labels[$field] ?? $field }}"
 						placeholder="Vyberte"
-						wire:model="properties.{{ $field }}"
+						wire:model.live="properties.{{ $field }}"
 					/>
 				@elseif(isset($types[$field]))
 					@switch($types[$field])
