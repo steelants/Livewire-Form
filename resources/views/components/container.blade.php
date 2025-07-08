@@ -3,7 +3,7 @@
 		@foreach ($fields as $field)
 			@php($method = "renderField" . ucfirst($field))
 			@if (method_exists($this, $method))
-				{!! $this->{$method}(Arr::get($row, $key), $row) !!}
+				{!! $this->{$method}() !!}
 			@else
 				{!! $this->field($field) !!}
 			@endif
