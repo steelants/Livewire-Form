@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Blade;
 
 class FormComponent extends Component
 {
@@ -13,6 +14,7 @@ class FormComponent extends Component
     private array $types = [];
     private array $fields = [];
     private array $options = [];
+    private array $labels = [];
 
     public string $viewName = 'form-components::container';
 
@@ -82,10 +84,12 @@ class FormComponent extends Component
     private function getLabels()
     {
         if (method_exists($this, 'labels')) {
-            return $this->labels();
+            $this->labels = $this->labels();
+        } else {
+            $this->labels = $this->getFields();
         }
 
-        return $this->getFields();
+        return $this->labels;
     }
 
     public function store()
@@ -144,6 +148,25 @@ class FormComponent extends Component
             'types' => $this->getTypes(),
             'options' => $this->getOptions(),
             'labels' => $this->getLabels(),
+        ]);
+    }
+
+    protected function field($field)
+    {
+        return Blade::render(<<<'BLADE'
+            <x-form-components::field
+                :field="$field"
+                :label="$label"
+                :type="$types"
+                :options="$options"
+                :mentions="$mentions"
+            />
+        BLADE, [
+            'field' => $field,
+            'label' => $this->labels[$field] ?? $field,
+            'types' => $this->types[$field] ?? null,
+            'options' => $this->options[$field] ?? null,
+            'mentions' => $this->mentions ?? null,
         ]);
     }
 }
