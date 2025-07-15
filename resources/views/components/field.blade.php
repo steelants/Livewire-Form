@@ -5,12 +5,12 @@
             group-class="mb-3"
             label="{{ $label }}"
             placeholder="{{ __('Vyberte') }}..."
-            wire:model.live="properties.{{ $field }}"
+            wire:model.live="{{ $field }}"
         />
     @elseif(isset($type))
         @switch($type)
             @case('string')
-                <x-form::input group-class="mb-3" label="{{ $label }}" wire:model="properties.{{ $field }}" />
+                <x-form::input group-class="mb-3" label="{{ $label }}" wire:model="{{ $field }}" />
             @break
 
             @case('quill')
@@ -19,12 +19,12 @@
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="number"
-                    wire:model="properties.{{ $field }}"
+                    wire:model="{{ $field }}"
                 />
             @break
 
             @case('text')
-                <x-form::textarea group-class="mb-3" label="{{ $label }}" wire:model="properties.{{ $field }}" />
+                <x-form::textarea group-class="mb-3" label="{{ $label }}" wire:model="{{ $field }}" />
             @break
 
             @case('int')
@@ -32,7 +32,7 @@
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="number"
-                    wire:model="properties.{{ $field }}"
+                    wire:model="{{ $field }}"
                 />
             @break
 
@@ -41,7 +41,7 @@
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="date"
-                    wire:model="properties.{{ $field }}"
+                    wire:model="{{ $field }}"
                 />
             @break
 
@@ -50,7 +50,7 @@
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="datetime-local"
-                    wire:model="properties.{{ $field }}"
+                    wire:model="{{ $field }}"
                 />
             @break
 
@@ -59,13 +59,13 @@
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="password"
-                    wire:model="properties.{{ $field }}"
+                    wire:model="{{ $field }}"
                 />
                 <x-form::input
                     group-class="mb-3"
-                    label="{{ __('livewire-form::ui.confirmation') }}"
+                    label="{{ $label }} {{ __('livewire-form::ui.again') }}"
                     type="password"
-                    wire:model="properties.{{ $field . '_confirmation' }}"
+                    wire:model="{{ $field . '_confirmation' }}"
                 />
             @break
 
@@ -79,7 +79,7 @@
             group-class="mb-3"
             label="{{ $label }}"
             type="text"
-            wire:model="properties.{{ $field }}"
+            wire:model="{{ $field }}"
         />
     @endif
 </div>

@@ -11,85 +11,61 @@ use Illuminate\Support\Facades\Blade;
 class FormComponent extends Component
 {
     public array $properties = [];
-    private array $types = [];
-    private array $fields = [];
-    private array $options = [];
-    private array $labels = [];
-
     public string $viewName = 'form-components::container';
 
+    public function mount(){
+        $this->properties = $this->properties();
+    }
+
     #[Computed()]
-    public function mentions()
+    public function fields()
     {
         return [];
     }
 
-    private function getFields(): array
+    public function properties()
     {
-
-        if ($this->fields != [])
-            return $this->fields;
-
-        if (method_exists($this, 'fields')) {
-            $this->fields = $this->fields();
-        }
-
-        return $this->fields;
+        return [];
     }
 
-    private function getProperties()
+    #[Computed()]
+    public function types()
     {
-        if (empty($this->properties) && method_exists($this, 'properties')) {
-            $this->properties = $this->properties();
-            unset($this->properties['id']);
-        }
-
-        return $this->properties;
+        return [];
     }
 
-    private function getTypes()
+    #[Computed()]
+    public function labels()
     {
-        if (method_exists($this, 'types')) {
-            $this->types = $this->types();
-        }
-
-        return $this->types;
+        return [];
     }
 
-    public function getOptions()
+    #[Computed()]
+    public function options()
     {
-        if ($this->options != [])
-            return $this->options;
-
         $options = [];
-        foreach ($this->getProperties() as $key => $value) {
-            $optionMethodName = Str::camel('get_' . $key . '_options');
+        foreach ($this->fields as $key) {
+            $optionMethodName = Str::camel($key . '_options');
             if (method_exists($this, $optionMethodName)) {
                 $options[$key] = $this->$optionMethodName();
                 continue;
             }
 
-            if (method_exists($this, 'options') && $this->options($key, $options) !== []) {
-                $options[$key] = $this->options($key, $options);
+            if (method_exists($this, 'getOptions')) {
+                $opts = $this->getOptions($key, $options);
+                if(!empty($opts)){
+                    $options[$key] = $opts;
+                }
             }
         }
 
-
-        $this->options = $options;
-
-
-        return $this->options;
+        return $options;
     }
 
-    private function getLabels()
+    #[Computed()]
+    public function mentions()
     {
-        if (method_exists($this, 'labels')) {
-            $this->labels = $this->labels();
-        } else {
-            $this->labels = $this->getFields();
-        }
-
-        return $this->labels;
+        return [];
     }
 
     public function store()
@@ -108,7 +84,7 @@ class FormComponent extends Component
 
             if ($error && method_exists($this, 'onError')) {
                 $this->onError();
-            } elseif (method_exists($this, 'onSuccess')) {
+            } else if (method_exists($this, 'onSuccess')) {
                 $this->reset('properties');
                 $this->onSuccess();
             }
@@ -132,30 +108,19 @@ class FormComponent extends Component
     //     ];
     // }
 
-    // Overide options for select of field in default all otions gnnerated are used (optional)
-    // public function getPropertyNameOptions() : array
-    // {
-    //     return [
-    //         'id' => 'name'
-    //     ];
-    // }
-
     public function render()
     {
-        return view($this->viewName, [
-            'fields' => $this->getFields(),
-            'properties' => $this->getProperties(),
-            'types' => $this->getTypes(),
-            'options' => $this->getOptions(),
-            'labels' => $this->getLabels(),
-        ]);
+        return view($this->viewName);
     }
 
+    /**
+     * Render field
+     */
     protected function field($field)
     {
         return Blade::render(<<<'BLADE'
             <x-form-components::field
-                :field="$field"
+                :field="'properties.'.$field"
                 :label="$label"
                 :type="$types"
                 :options="$options"
