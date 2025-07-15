@@ -13,7 +13,7 @@ class Form extends FormComponent
 {
     use HasModel;
 
-    public $class = PersonChild::class;
+    public $modelClass = PersonChild::class;
 
     //default rules generated from $fillables of model or define own if you are not using them HasModel Attribute
     protected function rules()
@@ -44,6 +44,13 @@ class Form extends FormComponent
 ```
 
 ### User For Form Component example
+```html
+Edit user - pass model-id attribute
+<livewire:user.form model-id="2" />
+
+Create user
+<livewire:user.form/>
+```
 ```php
 <?php
 namespace App\Livewire\User;
@@ -56,7 +63,7 @@ class Form extends FormComponent
 {
     use HasModel;
 
-    public $class = User::class;
+    public $modelClass = User::class;
 
     protected function rules()
     {

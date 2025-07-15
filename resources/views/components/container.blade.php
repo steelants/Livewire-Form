@@ -18,10 +18,6 @@
 		<x-form::button
 			class="btn-primary"
 			type="submit"
-		>{{ (isset($modelId) ? __("boilerplate::ui.update") : __("boilerplate::ui.create")) }}</x-form::button>
+		>{{ (!empty($modelId) ? __("boilerplate::ui.update") : __("boilerplate::ui.create")) }}</x-form::button>
 	</x-form::form>
-
-    @dump($modelClass)
-    @dump($modelId)
-    @dump($properties)
 </div>
