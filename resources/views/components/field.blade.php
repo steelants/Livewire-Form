@@ -15,7 +15,7 @@
 
             @case('quill')
                 <x-form::quill
-                    :mentions="$this->mentions"
+                    :mentions="$mentions"
                     group-class="mb-3"
                     label="{{ $label }}"
                     type="number"

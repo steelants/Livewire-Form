@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 
 trait HasModel
 {
     // public $modelClass;
+    #[Locked]
     public $modelId;
     public $model;
 
