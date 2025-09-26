@@ -36,6 +36,14 @@
                 />
             @break
 
+            @case('checkbox')
+                <x-form::checkbox
+                    group-class="mb-3"
+                    label="{{ $label }}"
+                    wire:model="{{ $field }}"
+                />    
+            @break
+
             @case('date')
                 <x-form::input
                     group-class="mb-3"
