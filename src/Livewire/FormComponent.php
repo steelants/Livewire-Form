@@ -40,6 +40,12 @@ class FormComponent extends Component
         return [];
     }
 
+     #[Computed()]
+    public function helps()
+    {
+        return [];
+    }
+
     #[Computed()]
     public function options()
     {
@@ -58,7 +64,6 @@ class FormComponent extends Component
                 }
             }
         }
-
         return $options;
     }
 
@@ -122,6 +127,7 @@ class FormComponent extends Component
             <x-form-components::field
                 :field="'properties.'.$field"
                 :label="$label"
+                :help="$help"
                 :type="$types"
                 :options="$options"
                 :mentions="$mentions"
@@ -129,6 +135,7 @@ class FormComponent extends Component
         BLADE, [
             'field' => $field,
             'label' => $this->labels[$field] ?? $field,
+            'help' =>  $this->helps[$field] ?? null,
             'types' => $this->types[$field] ?? null,
             'options' => $this->options[$field] ?? null,
             'mentions' => $this->mentions ?? null,

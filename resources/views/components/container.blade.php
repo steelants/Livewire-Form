@@ -9,6 +9,7 @@
                 <x-form-components::field
                     :field="'properties.'.$field"
                     :label="$this->labels[$field] ?? $field"
+					:help="$this->helps[$field] ?? null"
                     :type="$this->types[$field] ?? null"
                     :options="$this->options[$field] ?? null"
                     :mentions="$this->mentions ?? null"

@@ -4,13 +4,14 @@
             :options="$options"
             group-class="mb-3"
             label="{{ $label }}"
+            help="{{ $help }}"
             placeholder="{{ __('Vyberte') }}..."
             wire:model.live="{{ $field }}"
         />
     @elseif(isset($type))
         @switch($type)
             @case('string')
-                <x-form::input group-class="mb-3" label="{{ $label }}" wire:model="{{ $field }}" />
+                <x-form::input group-class="mb-3" label="{{ $label }}" help="{{ $help }}" wire:model="{{ $field }}" />
             @break
 
             @case('quill')
@@ -18,6 +19,7 @@
                     :mentions="$mentions"
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     type="number"
                     wire:model="{{ $field }}"
                 />
@@ -31,6 +33,7 @@
                 <x-form::input
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     type="number"
                     wire:model="{{ $field }}"
                 />
@@ -40,6 +43,7 @@
                 <x-form::checkbox
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     wire:model="{{ $field }}"
                 />    
             @break
@@ -48,6 +52,7 @@
                 <x-form::input
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     type="date"
                     wire:model="{{ $field }}"
                 />
@@ -57,6 +62,7 @@
                 <x-form::input
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     type="datetime-local"
                     wire:model="{{ $field }}"
                 />
@@ -66,12 +72,14 @@
                 <x-form::input
                     group-class="mb-3"
                     label="{{ $label }}"
+                    help="{{ $help }}"
                     type="password"
                     wire:model="{{ $field }}"
                 />
                 <x-form::input
                     group-class="mb-3"
                     label="{{ $label }} {{ __('livewire-form::ui.again') }}"
+                    help="{{ $help }}"
                     type="password"
                     wire:model="{{ $field . '_confirmation' }}"
                 />
@@ -86,6 +94,7 @@
         <x-form::input
             group-class="mb-3"
             label="{{ $label }}"
+            help="{{ $help }}"
             type="text"
             wire:model="{{ $field }}"
         />

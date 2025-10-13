@@ -14,6 +14,7 @@ class Field extends Component
     public function __construct(
         public $field = null,
         public $label = null,
+        public $help = null,
         public $type = null,
         public $options = null,
         public $mentions = null,
