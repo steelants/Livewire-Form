@@ -5,7 +5,7 @@
             group-class="mb-3"
             label="{{ $label }}"
             help="{{ $help }}"
-            placeholder="{{ __('Vyberte') }}..."
+            placeholder="{{ __('Select...') }}"
             wire:model.live="{{ $field }}"
         />
     @elseif(isset($type))
@@ -78,7 +78,7 @@
                 />
                 <x-form::input
                     group-class="mb-3"
-                    label="{{ $label }} {{ __('livewire-form::ui.again') }}"
+                    label="{{ $label }} {{ __('again') }}"
                     help="{{ $help }}"
                     type="password"
                     wire:model="{{ $field . '_confirmation' }}"
@@ -87,7 +87,7 @@
 
             @default
                 <div class="mb-3">
-                    <span>Unsupported type: {{ $type }}</span>
+                    <span>{{ __('Unsupported type: :type', ['type' => $type]) }}</span>
                 </div>
         @endswitch
     @else

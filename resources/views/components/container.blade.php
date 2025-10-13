@@ -19,6 +19,6 @@
 		<x-form::button
 			class="btn-primary"
 			type="submit"
-		>{{ (!empty($modelId) ? __("boilerplate::ui.update") : __("boilerplate::ui.create")) }}</x-form::button>
+		>{{ (!empty($modelId) ? __("Update") : __("Create")) }}</x-form::button>
 	</x-form::form>
 </div>
