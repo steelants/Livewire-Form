@@ -20,7 +20,7 @@ class {{fileName}} extends FormComponent
 
     function labels(){
         return [
-            'name' => __('Jméno')
+            'name' => __('Name')
         ];
     }
 

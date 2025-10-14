@@ -63,7 +63,7 @@ class MakeCommand extends Command
 
         $fillable = (new ('App\\Models\\' . $model))->getFillable();
         if ($fillable == []) {
-            $this->components->warn('Please make shure that $fillable variable of model ' . $model . ' is defined correctly.');
+            $this->components->warn('Please make sure that $fillable variable of model ' . $model . ' is defined correctly.');
         }
 
         $content = $this->getFormClassSkeleton([
