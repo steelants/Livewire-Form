@@ -45,7 +45,7 @@
                     label="{{ $label }}"
                     help="{{ $help }}"
                     wire:model="{{ $field }}"
-                />    
+                />
             @break
 
             @case('date')
@@ -87,7 +87,7 @@
 
             @default
                 <div class="mb-3">
-                    <span>{{ __('Unsupported type: :type', ['type' => $type]) }}</span>
+                    <span>{{ __('Unsupported type: ' . $type) }}</span>
                 </div>
         @endswitch
     @else
