@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 trait HasModel
 {
-    // If you vant to manipulate with model you need to 
+    // If you vant to manipulate with model you need to
     public $model;
 
     public function submit(): bool
@@ -19,12 +19,12 @@ trait HasModel
 
         if (!empty($this->resolveModel()->getAttributes())) {
             try {
-                $this->resolveModel()->update($this->properties);
+                $this->model = $this->resolveModel()->update($this->properties);
             } catch (\Illuminate\Database\QueryException $e) {
                 return false;
             }
         } else {
-            if (!$this->resolveModel()::create($this->properties)) {
+            if (!($this->model = $this->resolveModel()::create($this->properties))) {
                 return false;
             }
         }
@@ -40,7 +40,7 @@ trait HasModel
     public function properties()
     {
         $rawProperties = array_fill_keys(ARRAY_KEYS(array_flip($this->resolveModel()->getFillable())), null);
-        
+
         if ($this->resolveModel()->id !== null) {
             $rawProperties = $this->resolveModel()->toArray();
         }
@@ -61,7 +61,7 @@ trait HasModel
     {
         $relatedModel = Str::camel(str_replace("_id", "", $field));
         if (str_ends_with($field, '_id')) {
-            if (!empty($this->resolveModel()->$relatedModel)){   
+            if (!empty($this->resolveModel()->$relatedModel)){
                 return $this->resolveModel()->$relatedModel->getModel()->all()->pluck('name', 'id')->toArray();
             }
         }
