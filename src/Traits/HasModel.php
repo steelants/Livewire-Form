@@ -5,10 +5,14 @@ namespace SteelAnts\LivewireForm\Traits;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 
 trait HasModel
 {
-    // If you vant to manipulate with model you need to
+    // public $modelClass;
+    #[Locked]
+    public $modelId;
     public $model;
 
     public function submit(): bool
@@ -32,6 +36,7 @@ trait HasModel
         return true;
     }
 
+    #[Computed()]
     public function fields()
     {
         return $this->resolveModel()->getFillable();
@@ -39,10 +44,11 @@ trait HasModel
 
     public function properties()
     {
-        $rawProperties = array_fill_keys(ARRAY_KEYS(array_flip($this->resolveModel()->getFillable())), null);
-
         if ($this->resolveModel()->id !== null) {
             $rawProperties = $this->resolveModel()->toArray();
+            $rawProperties = array_filter($rawProperties, fn($k) => in_array($k, $this->fields), ARRAY_FILTER_USE_KEY);
+        }else{
+            $rawProperties = array_fill_keys($this->fields, null);
         }
 
         foreach ($rawProperties as $key => $value) {
@@ -52,12 +58,13 @@ trait HasModel
         return $rawProperties;
     }
 
+    #[Computed()]
     public function types()
     {
         return $this->resolveModel()->getCasts();
     }
 
-    public function options($field, $options = []): array
+    public function getOptions($field, $options = []): array
     {
         $relatedModel = Str::camel(str_replace("_id", "", $field));
         if (str_ends_with($field, '_id')) {
@@ -71,15 +78,14 @@ trait HasModel
 
     public function resolveModel(): Model
     {
-        if (!empty($this->model)) {
-            if (!is_int($this->model) && !empty($this->model->getAttributes())){
+        // tomuto taky moc nerzumim, proc je to tak zlosite a ne proste jen fetch dle id modelu
+        if (!empty($this->model) && !empty($this->model->getAttributes())){
+            return $this->model;
+        }else if (!empty($this->modelId)) {
+            $model = $this->modelClass::find($this->modelId);
+            if (!empty($model)) {
+                $this->model = $model;
                 return $this->model;
-            } else {
-                $model = $this->modelClass::find($this->model);
-                if (!empty($model) && $model->count() > 0) {
-                    $this->model = $model;
-                    return $this->model;
-                }
             }
         }
         $classname = $this->modelClass;
