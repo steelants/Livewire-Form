@@ -90,7 +90,7 @@ class FormComponent extends Component
             if ($error && method_exists($this, 'onError')) {
                 $this->onError();
             } else if (method_exists($this, 'onSuccess')) {
-                $this->reset('properties');
+                $this->properties = $this->properties();
                 $this->onSuccess();
             }
         } catch (ValidationException $e) {
