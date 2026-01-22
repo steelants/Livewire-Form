@@ -23,12 +23,12 @@ trait HasModel
 
         if (!empty($this->resolveModel()->getAttributes())) {
             try {
-                $this->resolveModel()->update($this->properties);
+                $this->model = tap($this->resolveModel()->update($this->properties));
             } catch (\Illuminate\Database\QueryException $e) {
                 return false;
             }
         } else {
-            if (!$this->resolveModel()::create($this->properties)) {
+            if ($this->model = !$this->resolveModel()::create($this->properties)) {
                 return false;
             }
         }
