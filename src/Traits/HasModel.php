@@ -28,7 +28,7 @@ trait HasModel
                 return false;
             }
         } else {
-            if ($this->model = !$this->resolveModel()::create($this->properties)) {
+            if (!($this->model = $this->resolveModel()::create($this->properties))) {
                 return false;
             }
         }
