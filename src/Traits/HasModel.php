@@ -23,7 +23,7 @@ trait HasModel
 
         if (!empty($this->resolveModel()->getAttributes())) {
             try {
-                $this->model = tap($this->resolveModel()->update($this->properties));
+                $this->model = tap($this->resolveModel())->update($this->properties);
             } catch (\Illuminate\Database\QueryException $e) {
                 return false;
             }
