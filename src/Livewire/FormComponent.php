@@ -76,9 +76,12 @@ class FormComponent extends Component
     public function store()
     {
         try {
-            if (method_exists($this, 'rules')) {
+            $hasRules = property_exists($this, 'rules') ||
+                (new \ReflectionMethod($this, 'rules'))->getDeclaringClass()->getName() === get_class($this);
+            if ($hasRules && !empty($this->rules())) {
                 $this->validate();
             }
+
 
             $error = true;
             if (method_exists($this, 'submit')) {
