@@ -23,7 +23,7 @@ trait HasModel
 
         if (!empty($this->resolveModel()->getAttributes())) {
             try {
-                $this->model = tap($this->resolveModel())->update($this->properties);
+                $this->model = self::unwrapModel(tap($this->resolveModel())->update($this->properties));
             } catch (\Illuminate\Database\QueryException $e) {
                 return false;
             }
@@ -91,5 +91,13 @@ trait HasModel
         $classname = $this->modelClass;
         $this->model = new $classname();
         return $this->model;
+    }
+
+    protected static function unwrapModel($model)
+    {
+        if ($model instanceof HigherOrderTapProxy && property_exists($model, 'target')) {
+            return $model->target;
+        }
+        return $model;
     }
 }
