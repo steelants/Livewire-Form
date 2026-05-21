@@ -17,7 +17,7 @@ trait HasModel
 
     public function submit(): bool
     {
-        if (method_exists($this, 'rules')) {
+        if (method_exists($this, 'rules') && $this->rules() != []) {
             $this->validate();
         }
 

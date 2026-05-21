@@ -76,7 +76,7 @@ class FormComponent extends Component
     public function store()
     {
         try {
-            if (method_exists($this, 'rules')) {
+            if (method_exists($this, 'rules') && $this->rules() != []) {
                 $this->validate();
             }
 
