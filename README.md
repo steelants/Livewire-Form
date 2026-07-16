@@ -1,58 +1,57 @@
-# Livewire-Form
+<div align="center">
 
-### Basic Form Component For Creation/Update of model
+<a href="https://steelants.cz">
+	<picture>
+		<source
+			media="(prefers-color-scheme: dark)"
+			srcset="https://steelants.cz/wp-content/uploads/2026/07/white_3.png">
+		<img
+			src="https://steelants.cz/wp-content/themes/wp_steelants_v5/img/logo.png"
+			alt="SteelAnts"
+			width="180">
+	</picture>
+</a>
+
+<h1>Livewire-Form</h1>
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/steelants/livewire-form.svg?style=flat-square)](https://packagist.org/packages/steelants/livewire-form) [![Total Downloads](https://img.shields.io/packagist/dt/steelants/livewire-form.svg?style=flat-square)](https://packagist.org/packages/steelants/livewire-form)
+
+<p>
+Model driven Livewire form components for Laravel - fields, types, labels and validation resolved automatically from your Eloquent models.
+</p>
+
+<p>
+Created by <a href="https://steelants.cz">SteelAnts s.r.o.</a>
+</p>
+
+</div>
+
+## Installation
+
+Install the package using Composer:
+
+```bash
+composer require steelants/livewire-form
+```
+
+## Features
+
+SteelAnts Livewire-Form provides:
+
+- Livewire form components for creating and updating models
+- Fields resolved from the model `$fillable`
+- Input types resolved from the model `$casts`
+- Automatic create vs. update handling
+- Relation selects for `_id` fields
+- Custom field rendering
+- Success and error callbacks
+- Form generator command
+
+## Usage
+
+Create a form component for a model:
+
 ```php
-<?php
-namespace App\Livewire\PersonChild;
-
-use App\Models\PersonChild;
-use SteelAnts\LivewireForm\Livewire\FormComponent;
-use SteelAnts\LivewireForm\Traits\HasModel;
-
-class Form extends FormComponent
-{
-    use HasModel;
-
-    public $modelClass = PersonChild::class;
-
-    //default rules generated from $fillables of model or define own if you are not using them HasModel Attribute
-    protected function rules()
-    {
-        return [
-            'properties.name' => 'required',
-        ];
-    }
-
-    //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
-    function labels(){
-        return [
-            'name' => __('Jméno')
-        ];
-    }
-
-    function onSuccess(){
-        //DO SOMETHING ON SUCESS;
-    }
-
-    function onError(){
-        //DO SOMETHING ON ERROR;
-    }
-}
-```
-```blade
-@livewire('form-test', ['model' => 2])
-```
-
-### User For Form Component example
-```html
-Edit user - pass model-id attribute
-<livewire:user.form model-id="2" />
-
-Create user
-<livewire:user.form/>
-```
-```php
-<?php
 namespace App\Livewire\User;
 
 use App\Models\User;
@@ -64,66 +63,42 @@ class Form extends FormComponent
     use HasModel;
 
     public $modelClass = User::class;
-
-    protected function rules()
-    {
-        return [
-            'properties.name' => 'required|max:255|unique:users,name',
-            'properties.email' => 'required|string|email|max:255|unique:users,email' . ($this->model->exists() ? ',' . $this->model->id : ''),
-            'properties.password' => 'sometimes|string|min:8|max:255',
-            'properties.password_confirmation' => 'required_with:properties.password|string|same:properties.password',
-        ];
-    }
-
-    //Oweride default labels generated from $fillables of model or define own if you are not using them HasModel Attribute
-    function labels(){
-        return [
-            'name' => __('Name'),
-            'email' => __('Email'),
-            'password' => __('Password'),
-            'password_confirmation' => __('Password confirmation')
-        ];
-    }
-
-    function onSuccess(){
-        //DO SOMETHING ON SUCESS;
-    }
-
-    function onError(){
-        //DO SOMETHING ON ERROR;
-    }
 }
 ```
 
+Render the component:
 
-### Dev Enviroment
-1) Clone Repo to `[LARVEL-ROOT]packages/`
-2) Modify ;composer.json`
-```json
-    "autoload": {
-        "psr-4": {
-            ...
-            "SteelAnts\\LivewireForm\\": "packages/livewire-form/src/"
-            ...
-        }
-    },
-```
-3) Add (code below) to: `[LARVEL-ROOT]packages/bootstrap/providers.php`
-```php
-SteelAnts\LivewireForm\LivewireFormServiceProvider::class,
+```blade
+<livewire:user.form />
+
+<livewire:user.form model-id="2" />
 ```
 
+## Documentation
+
+- [Installation](docs/installation.md)
+- [Usage](docs/usage.md)
+- [Fields](docs/fields.md)
+- [Commands](docs/commands.md)
+- [Development](docs/development.md)
 
 ## Contributors
-<a href="https://github.com/steelants/laravel-auth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=steelants/laravel-auth" />
+
+<a href="https://github.com/steelants/Livewire-Form/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=steelants/Livewire-Form" />
 </a>
 
 ## Other Packages
-[steelants/datatable](https://github.com/steelants/Livewire-DataTable)
 
-[steelants/form](https://github.com/steelants/Laravel-Form) 
+- [laravel-auth](https://github.com/steelants/laravel-auth)
+- [Livewire-DataTable](https://github.com/steelants/Livewire-DataTable)
+- [Laravel-Boilerplate.Warehouse](https://github.com/steelants/Laravel-Boilerplate.Warehouse)
+- [Laravel-Boilerplate](https://github.com/steelants/Laravel-Boilerplate)
+- [Laravel-Form](https://github.com/steelants/Laravel-Form)
+- [Laravel-General](https://github.com/steelants/Laravel-General)
+- [Laravel-Tenant](https://github.com/steelants/Laravel-Tenant)
+- [Livewire-Modal](https://github.com/steelants/Livewire-Modal)
 
-[steelants/modal](https://github.com/steelants/Livewire-Modal)
+## License
 
-[steelants/boilerplate](https://github.com/steelants/Laravel-Boilerplate)
+This package is open-sourced software licensed under the [MIT license](LICENSE).
