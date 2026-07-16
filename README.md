@@ -26,14 +26,6 @@ Created by <a href="https://steelants.cz">SteelAnts s.r.o.</a>
 
 </div>
 
-## Installation
-
-Install the package using Composer:
-
-```bash
-composer require steelants/livewire-form
-```
-
 ## Features
 
 SteelAnts Livewire-Form provides:
@@ -46,33 +38,6 @@ SteelAnts Livewire-Form provides:
 - Custom field rendering
 - Success and error callbacks
 - Form generator command
-
-## Usage
-
-Create a form component for a model:
-
-```php
-namespace App\Livewire\User;
-
-use App\Models\User;
-use SteelAnts\LivewireForm\Livewire\FormComponent;
-use SteelAnts\LivewireForm\Traits\HasModel;
-
-class Form extends FormComponent
-{
-    use HasModel;
-
-    public $modelClass = User::class;
-}
-```
-
-Render the component:
-
-```blade
-<livewire:user.form />
-
-<livewire:user.form model-id="2" />
-```
 
 ## Documentation
 
@@ -90,7 +55,7 @@ Render the component:
 
 ## Other Packages
 
-- [laravel-auth](https://github.com/steelants/laravel-auth)
+- [Laravel-Auth](https://github.com/steelants/Laravel-Auth)
 - [Livewire-DataTable](https://github.com/steelants/Livewire-DataTable)
 - [Laravel-Boilerplate.Warehouse](https://github.com/steelants/Laravel-Boilerplate.Warehouse)
 - [Laravel-Boilerplate](https://github.com/steelants/Laravel-Boilerplate)
