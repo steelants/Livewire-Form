@@ -103,7 +103,9 @@ class FormComponent extends Component
                     $this->addError($field, str_replace("properties.", "", $message));
                 }
             }
-            $this->onError();
+            if (method_exists($this, 'onError')) {
+                $this->onError();
+            }
         }
     }
 

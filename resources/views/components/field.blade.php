@@ -68,6 +68,7 @@
                 />
             @break
 
+            @case('password')
             @case('hashed')
                 <x-form::input
                     group-class="mb-3"
