@@ -17,7 +17,7 @@
 			@endif
 		@endforeach
 		<x-form::button
-			class="btn-primary"
+			class="btn-solid theme-primary"
 			type="submit"
 		>{{ (!empty($modelId) ? __("Update") : __("Create")) }}</x-form::button>
 	</x-form::form>
